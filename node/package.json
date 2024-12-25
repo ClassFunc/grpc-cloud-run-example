@@ -4,9 +4,16 @@
   "description": "",
   "main": "server.js",
   "scripts": {
+    "dev": "node --watch server.js",
+    "grpc-test:run:deploy": "gcloud beta run deploy grpc-test --source .",
+    "grpc-test:service:yaml": "gcloud run services describe grpc-test --format export > service.yaml",
+
     "docker:build": "docker buildx build -t asia-docker.pkg.dev/cf-akasach/api/grpc-calculator:latest .",
     "docker:push": "docker push asia-docker.pkg.dev/cf-akasach/api/grpc-calculator:latest",
-    "run:deploy": "gcloud run deploy --image asia-docker.pkg.dev/cf-akasach/api/grpc-calculator:latest --platform managed --health-check-type=grpc",
+    "update:service:yaml": "gcloud run services replace service.yaml",
+    "run:deploy": "gcloud run deploy --image asia-docker.pkg.dev/cf-akasach/api/grpc-calculator:latest --platform managed",
+    "make:service:yaml": "gcloud run services describe grpc-calculator --format export > service.yaml",
+
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

@@ -1,0 +1,52 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  annotations:
+    run.googleapis.com/build-enable-automatic-updates: 'false'
+    run.googleapis.com/build-id: afce0803-a5a2-46f5-a5f0-b155de6eb1c6
+    run.googleapis.com/build-image-uri: asia-southeast1-docker.pkg.dev/cf-akasach/cloud-run-source-deploy/grpc-test
+    run.googleapis.com/build-name: projects/321527618877/locations/asia-southeast1/builds/afce0803-a5a2-46f5-a5f0-b155de6eb1c6
+    run.googleapis.com/build-source-location: gs://run-sources-cf-akasach-asia-southeast1/services/grpc-test/1735141318.588777-aebfa81c2691476191a8510a1b6b4f95.zip#1735141319011668
+    run.googleapis.com/ingress: all
+    run.googleapis.com/ingress-status: all
+    run.googleapis.com/urls: '["https://grpc-test-321527618877.asia-southeast1.run.app","https://grpc-test-lcpia55i5q-as.a.run.app"]'
+  labels:
+    cloud.googleapis.com/location: asia-southeast1
+    run.googleapis.com/satisfiesPzs: 'true'
+  name: grpc-test
+  namespace: '321527618877'
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/maxScale: '100'
+        run.googleapis.com/client-name: cloud-console
+        run.googleapis.com/execution-environment: gen2
+        run.googleapis.com/startup-cpu-boost: 'true'
+      labels:
+        client.knative.dev/nonce: c011cb1b-af46-4d78-a1b0-1c6c1d1501f1
+        run.googleapis.com/startupProbeType: Custom
+    spec:
+      containerConcurrency: 80
+      containers:
+      - image: asia-southeast1-docker.pkg.dev/cf-akasach/cloud-run-source-deploy/grpc-test@sha256:9f7270f9733c7d05642b77a3a061bfbd0e569029e1e846f96bc4737ef15bef2b
+        name: grpc-test-1
+        ports:
+        - containerPort: 8443
+          name: h2c
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 512Mi
+        startupProbe:
+          failureThreshold: 1
+          grpc:
+            port: 8443
+            service: grpc.health.v1.Health
+          periodSeconds: 240
+          timeoutSeconds: 240
+      serviceAccountName: 321527618877-compute@developer.gserviceaccount.com
+      timeoutSeconds: 300
+  traffic:
+  - latestRevision: true
+    percent: 100
