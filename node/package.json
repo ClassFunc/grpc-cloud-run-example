@@ -6,13 +6,14 @@
   "scripts": {
     "dev": "node --watch server.js",
     "grpc-test:run:deploy": "gcloud beta run deploy grpc-test --source .",
-    "grpc-test:service:yaml": "gcloud run services describe grpc-test --format export > service.yaml",
+    "grpc-test:service:yaml": "gcloud run services describe grpc-test --format export > grpc-test-service.yaml",
+    "grpc-test:get:service:yaml": "gcloud run services describe grpc-test --format export > grpc-test-service.yaml",
+    "grpc-test:update:service:yaml": "gcloud run services replace grpc-test-service.yaml",
 
-    "docker:build": "docker buildx build -t asia-docker.pkg.dev/cf-akasach/api/grpc-calculator:latest .",
-    "docker:push": "docker push asia-docker.pkg.dev/cf-akasach/api/grpc-calculator:latest",
-    "update:service:yaml": "gcloud run services replace service.yaml",
-    "run:deploy": "gcloud run deploy --image asia-docker.pkg.dev/cf-akasach/api/grpc-calculator:latest --platform managed",
-    "make:service:yaml": "gcloud run services describe grpc-calculator --format export > service.yaml",
+    "docker:build": "docker buildx build -t grpc-calculator .",
+    "run:deploy": "gcloud run deploy grpc-calculator --source .",
+    "get:service:yaml": "gcloud run services describe grpc-calculator --format export > grpc-calculator-service.yaml",
+    "grpc-calculator:service:yaml": "gcloud run services replace grpc-calculator-service.yaml",
 
     "test": "echo \"Error: no test specified\" && exit 1"
   },
