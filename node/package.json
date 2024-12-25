@@ -4,13 +4,16 @@
   "description": "",
   "main": "server.js",
   "scripts": {
+    "docker:build": "docker buildx build -t asia-docker.pkg.dev/cf-akasach/api/grpc-calculator:latest .",
+    "docker:push": "docker push asia-docker.pkg.dev/cf-akasach/api/grpc-calculator:latest",
+    "run:deploy": "gcloud run deploy --image asia-docker.pkg.dev/cf-akasach/api/grpc-calculator:latest --platform managed --health-check-type=grpc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "Apache-2.0",
   "dependencies": {
     "@grpc/proto-loader": "^0.5.3",
-    "grpc": "^1.24.2",
+    "@grpc/grpc-js": "1.12.5",
     "yargs": "^15.1.0"
   }
 }
